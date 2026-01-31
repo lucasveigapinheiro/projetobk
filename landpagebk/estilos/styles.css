@@ -765,7 +765,7 @@ body {
     .nav ul {
         flex-direction: column;
         gap: 15px;
-        display: none;
+        display: flex;
     }
 
     .hero h2 {
