@@ -1,19 +1,19 @@
 // ===== INTERATIVIDADE DO SITE =====
 
 // Menu Hamburger
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const hamburger = document.querySelector('.hamburger');
     const nav = document.querySelector('.nav');
 
     if (hamburger) {
-        hamburger.addEventListener('click', function() {
+        hamburger.addEventListener('click', function () {
             hamburger.classList.toggle('active');
             nav.classList.toggle('active');
         });
 
         // Fechar menu ao clicar em um link
         document.querySelectorAll('.nav a').forEach(link => {
-            link.addEventListener('click', function() {
+            link.addEventListener('click', function () {
                 hamburger.classList.remove('active');
                 nav.classList.remove('active');
             });
@@ -21,94 +21,94 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Fechar menu ao redimensionar
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
             hamburger?.classList.remove('active');
             nav?.classList.remove('active');
         }
     });
 });
-    const btnPrimary = document.querySelectorAll('.btn-primary');
-    
-    btnPrimary.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            // Efeito de ripple
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
+const btnPrimary = document.querySelectorAll('.btn-primary');
 
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.classList.add('ripple');
+btnPrimary.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        // Efeito de ripple
+        const ripple = document.createElement('span');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
 
-            this.appendChild(ripple);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        ripple.classList.add('ripple');
 
-            // Remover ripple após animação
-            setTimeout(() => ripple.remove(), 600);
+        this.appendChild(ripple);
 
-            // Mensagem de feedback
-            showNotification('Pedido realizado com sucesso! 🎉');
-        });
+        // Remover ripple após animação
+        setTimeout(() => ripple.remove(), 600);
+
+        // Mensagem de feedback
+        showNotification('Pedido realizado com sucesso! 🎉');
     });
+});
 
-    // Formulário de contato
-    const formContato = document.querySelector('.form-contato');
-    if (formContato) {
-        formContato.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const nome = this.querySelector('input[type="text"]').value;
-            const email = this.querySelector('input[type="email"]').value;
-            const mensagem = this.querySelector('textarea').value;
+// Formulário de contato
+const formContato = document.querySelector('.form-contato');
+if (formContato) {
+    formContato.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-            if (nome && email && mensagem) {
-                showNotification('✅ Mensagem enviada com sucesso!');
-                this.reset();
-            }
-        });
-    }
+        const nome = this.querySelector('input[type="text"]').value;
+        const email = this.querySelector('input[type="email"]').value;
+        const mensagem = this.querySelector('textarea').value;
 
-    // Animação ao fazer scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.animation = 'slideIn 0.6s ease forwards';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.promo-card, .menu-item, .contato-info, .media-card').forEach(el => {
-        observer.observe(el);
-    });
-
-    // Contador animado de scroll
-    let lastScrollTop = 0;
-    const header = document.querySelector('.header');
-
-    window.addEventListener('scroll', function() {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        
-        if (scrollTop > lastScrollTop) {
-            // Scroll para baixo - esconder header
-            header.style.transform = 'translateY(-100%)';
-        } else {
-            // Scroll para cima - mostrar header
-            header.style.transform = 'translateY(0)';
+        if (nome && email && mensagem) {
+            showNotification('✅ Mensagem enviada com sucesso!');
+            this.reset();
         }
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
+}
 
-    // Adicionar transição suave ao header
-    header.style.transition = 'transform 0.3s ease';
+// Animação ao fazer scroll
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.animation = 'slideIn 0.6s ease forwards';
+            observer.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+document.querySelectorAll('.promo-card, .menu-item, .contato-info, .media-card').forEach(el => {
+    observer.observe(el);
+});
+
+// Contador animado de scroll
+let lastScrollTop = 0;
+const header = document.querySelector('.header');
+
+window.addEventListener('scroll', function () {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (scrollTop > lastScrollTop) {
+        // Scroll para baixo - esconder header
+        header.style.transform = 'translateY(-100%)';
+    } else {
+        // Scroll para cima - mostrar header
+        header.style.transform = 'translateY(0)';
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+});
+
+// Adicionar transição suave ao header
+header.style.transition = 'transform 0.3s ease';
 
 
 // Função para mostrar notificações
@@ -198,15 +198,15 @@ function animateCounter(element, target, duration = 2000) {
 }
 
 // Adicionar efeito hover aos itens do menu
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const menuItems = document.querySelectorAll('.menu-item');
-    
+
     menuItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
+        item.addEventListener('mouseenter', function () {
             this.style.transform = 'translateY(-8px) scale(1.02)';
         });
 
-        item.addEventListener('mouseleave', function() {
+        item.addEventListener('mouseleave', function () {
             this.style.transform = 'translateY(0) scale(1)';
         });
     });
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Função para atualizar ano no footer
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const anoAtual = new Date().getFullYear();
     const footerText = document.querySelector('.footer-bottom p');
     if (footerText) {
@@ -245,11 +245,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Galeria interativa com zoom
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const galeriaItems = document.querySelectorAll('.galeria-item');
-    
+
     galeriaItems.forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
             const media = this.querySelector('.media-card');
             const title = media?.dataset.title || this.querySelector('.galeria-overlay p')?.textContent || '';
             const symbol = media?.textContent?.trim() || '';
@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.appendChild(content);
             document.body.appendChild(modal);
 
-            modal.addEventListener('click', function() {
+            modal.addEventListener('click', function () {
                 modal.style.animation = 'fadeOut 0.3s ease';
                 setTimeout(() => modal.remove(), 300);
             });
@@ -303,10 +303,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Adicionar efeito de contador com scroll
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let contadoresAnimados = false;
-    
-    window.addEventListener('scroll', function() {
+
+    window.addEventListener('scroll', function () {
         const avaliacoes = document.querySelector('.avaliacoes');
         if (avaliacoes && !contadoresAnimados) {
             const rect = avaliacoes.getBoundingClientRect();
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Animação dos contadores na hero
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const counters = document.querySelectorAll('.counter');
     if (counters.length === 0) return;
 
@@ -346,9 +346,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // FAQ accordion
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.faq-question').forEach(q => {
-        q.addEventListener('click', function() {
+        q.addEventListener('click', function () {
             const answer = this.nextElementSibling;
             const open = answer.style.display === 'block';
             document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Newsletter form
     const newsletterForm = document.querySelector('.newsletter-form');
     if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
+        newsletterForm.addEventListener('submit', function (e) {
             e.preventDefault();
             showNotification('✅ Obrigado! Você foi inscrito na newsletter.');
             this.reset();
