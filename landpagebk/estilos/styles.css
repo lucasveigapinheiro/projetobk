@@ -15,23 +15,6 @@
     --bk-accent: #FF6B35;
 }
 
-.hero-background.no-img {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(236, 28, 36, 0.9), rgba(255, 107, 53, 0.7));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.hero-background.no-img::after {
-    content: '🍔';
-    font-size: 80px;
-    color: rgba(255, 255, 255, 0.08);
-}
-
-
 html {
     scroll-behavior: smooth;
 }
@@ -176,16 +159,18 @@ body {
     }
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO ===== */
 .hero {
     background: linear-gradient(135deg, var(--bk-red) 0%, var(--bk-accent) 100%);
     color: var(--bk-white);
-    padding: 60px 20px;
+    padding: 80px 20px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    background-size: cover;
-    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-background {
@@ -198,10 +183,20 @@ body {
     opacity: 0.3;
 }
 
-.hero-background img {
+.hero-background.no-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    background: linear-gradient(180deg, rgba(236, 28, 36, 0.9), rgba(255, 107, 53, 0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hero-background.no-img::after {
+    content: '🍔';
+    font-size: 80px;
+    color: rgba(255, 255, 255, 0.08);
 }
 
 .hero::before {

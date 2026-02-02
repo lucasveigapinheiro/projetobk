@@ -28,6 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+// Botões primários com efeito ripple
 const btnPrimary = document.querySelectorAll('.btn-primary');
 
 btnPrimary.forEach(btn => {
@@ -109,7 +111,6 @@ window.addEventListener('scroll', function () {
 
 // Adicionar transição suave ao header
 header.style.transition = 'transform 0.3s ease';
-
 
 // Função para mostrar notificações
 function showNotification(message) {
@@ -225,100 +226,22 @@ document.addEventListener('DOMContentLoaded', function () {
     if (footerText) {
         footerText.textContent = `© ${anoAtual} Burger King Brasil. Todos os direitos reservados. | Qualidade que Reina`;
     }
-});
 
-// Detectar cliques em links internos e scroll suave
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href !== '#') {
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+    // Detectar cliques em links internos e scroll suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href !== '#') {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             }
-        }
-    });
-});
-
-// Galeria interativa com zoom
-document.addEventListener('DOMContentLoaded', function () {
-    const galeriaItems = document.querySelectorAll('.galeria-item');
-
-    galeriaItems.forEach(item => {
-        item.addEventListener('click', function () {
-            const media = this.querySelector('.media-card');
-            const title = media?.dataset.title || this.querySelector('.galeria-overlay p')?.textContent || '';
-            const symbol = media?.textContent?.trim() || '';
-
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0, 0, 0, 0.9);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 10000;
-                animation: fadeIn 0.3s ease;
-            `;
-
-            const content = document.createElement('div');
-            content.style.cssText = `
-                color: #fff;
-                text-align: center;
-                max-width: 90%;
-                padding: 20px;
-            `;
-
-            if (symbol) {
-                const big = document.createElement('div');
-                big.textContent = symbol;
-                big.style.cssText = 'font-size:120px; margin-bottom:12px;';
-                content.appendChild(big);
-            }
-
-            if (title) {
-                const caption = document.createElement('div');
-                caption.textContent = title;
-                caption.style.cssText = 'font-size:22px; font-weight:700;';
-                content.appendChild(caption);
-            }
-
-            modal.appendChild(content);
-            document.body.appendChild(modal);
-
-            modal.addEventListener('click', function () {
-                modal.style.animation = 'fadeOut 0.3s ease';
-                setTimeout(() => modal.remove(), 300);
-            });
         });
-    });
-});
-
-// Adicionar efeito de contador com scroll
-document.addEventListener('DOMContentLoaded', function () {
-    let contadoresAnimados = false;
-
-    window.addEventListener('scroll', function () {
-        const avaliacoes = document.querySelector('.avaliacoes');
-        if (avaliacoes && !contadoresAnimados) {
-            const rect = avaliacoes.getBoundingClientRect();
-            if (rect.top < window.innerHeight) {
-                contadoresAnimados = true;
-                const avaliacaoCards = document.querySelectorAll('.avaliacao-card');
-                avaliacaoCards.forEach((card, index) => {
-                    card.style.animation = `slideIn ${0.6 + index * 0.1}s ease forwards`;
-                    card.style.opacity = '0';
-                });
-            }
-        }
     });
 });
 
@@ -365,4 +288,126 @@ document.addEventListener('DOMContentLoaded', function () {
             this.reset();
         });
     }
+});
+
+// Galeria interativa com zoom
+document.addEventListener('DOMContentLoaded', function () {
+    function setupGalleryModal() {
+        const galleryItems = document.querySelectorAll('.galeria-item');
+        
+        galleryItems.forEach(item => {
+            const button = item.querySelector('.media-card');
+            if (!button) return;
+
+            button.addEventListener('click', () => {
+                const title = button?.dataset.title || item.querySelector('.galeria-overlay p')?.textContent || '';
+                const symbol = button?.textContent?.trim() || '';
+                
+                createModal(symbol, title);
+            });
+        });
+    }
+
+    function createModal(symbol, title) {
+        // Verificar se modal já existe
+        if (document.querySelector('.modal-overlay')) return;
+
+        const modal = document.createElement('div');
+        modal.className = 'modal-overlay';
+        modal.setAttribute('role', 'dialog');
+        modal.setAttribute('aria-modal', 'true');
+        
+        modal.innerHTML = `
+            <div class="modal-content">
+                <button class="modal-close" aria-label="Fechar modal">&times;</button>
+                ${symbol ? `<div class="modal-symbol">${symbol}</div>` : ''}
+                ${title ? `<h3 class="modal-title">${title}</h3>` : ''}
+            </div>
+        `;
+
+        // Estilos do modal
+        const styles = `
+            .modal-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                animation: fadeIn 0.3s ease;
+            }
+            .modal-content {
+                color: #fff;
+                text-align: center;
+                max-width: 90%;
+                padding: 2rem;
+                position: relative;
+            }
+            .modal-close {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: none;
+                border: none;
+                color: #fff;
+                font-size: 2rem;
+                cursor: pointer;
+                padding: 0.5rem;
+                border-radius: 50%;
+                transition: background-color 0.3s ease;
+            }
+            .modal-close:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+            .modal-symbol {
+                font-size: 6rem;
+                margin-bottom: 1rem;
+            }
+            .modal-title {
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin: 0;
+            }
+        `;
+
+        // Adicionar estilos se não existirem
+        if (!document.querySelector('#modal-styles')) {
+            const styleSheet = document.createElement('style');
+            styleSheet.id = 'modal-styles';
+            styleSheet.textContent = styles;
+            document.head.appendChild(styleSheet);
+        }
+
+        document.body.appendChild(modal);
+
+        // Event listeners
+        const closeModal = () => {
+            modal.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => modal.remove(), 300);
+            document.body.style.overflow = '';
+        };
+
+        modal.querySelector('.modal-close').addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // Fechar com ESC
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', handleEscape);
+            }
+        };
+        document.addEventListener('keydown', handleEscape);
+
+        // Prevenir scroll do body
+        document.body.style.overflow = 'hidden';
+    }
+
+    setupGalleryModal();
 });
